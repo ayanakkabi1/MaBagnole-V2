@@ -29,3 +29,9 @@ CREATE TABLE commentaires(
    FOREIGN KEY (id_article) REFERNCES articles(id_article),
    FOREIGN KEY (id_client) REFERNCES users(id_client)
 )
+INSERT INTO themes (titre_theme, description_theme, actif) VALUES
+('Voitures électriques', 'Actualités et innovations sur les voitures électriques', TRUE),
+('Entretien automobile', 'Conseils et bonnes pratiques pour l entretien des voitures', TRUE),
+('Comparatifs auto', 'Comparaison entre différents modèles de voitures', TRUE);
+
+
