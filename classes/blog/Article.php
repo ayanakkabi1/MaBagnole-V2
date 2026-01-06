@@ -15,16 +15,18 @@
 class Article{
 
     private $id_article;
-    private $titre_article;
-    private $contenu;
-    private $status;
-    private $tags;
     private $id_theme;
     private $id_client;
+    private $titre_article;
+    private $contenu;
+    private $tags;
+    private $date_publication;
+    private $status;
+    
+    
 
     public function __construct($id_theme,$id_client,$titre_article, $contenu,$tags,$status = TRUE)
     {   
-        
         $this->id_theme=$id_theme;
         $this->id_client=$id_client;
         $this->titre_article=$titre_article;
