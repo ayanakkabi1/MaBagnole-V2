@@ -79,8 +79,8 @@ CREATE TABLE articles(
     date_publication DATE,
     status BOOLEAN DEFAULT TRUE,
 
-   FOREIGN KEY (id_theme) REFERNCES themes(id_theme),
-   FOREIGN KEY (id_client) REFERNCES users(id)
+   FOREIGN KEY (id_theme) REFERENCES themes(id_theme),
+   FOREIGN KEY (id_client) REFERENCES users(id)
 )
 CREATE TABLE commentaires(
     id_commentaire int AUTO_INCREMENT PRIMARY KEY,
