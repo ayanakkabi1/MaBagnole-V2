@@ -1,13 +1,18 @@
-//id_commentaire	id_client	id_article	titre_com	contenu_com	date_commentaire	soft_deleted	
+//id_commentaire	id_client	id_article	titre_com	contenu_com	 date_commentaire	soft_deleted	
 <?php
 class Commentaire{
 
     private $id_commentaire;
+    private $id_client;
+    private $id_article;
     private $titre_com;
     private $contenu_com;
+    private $date_commentaire;
     private $soft_deleted;
-    public function __construct($titre_com, $contenu_com,$soft_deleted = false)
+    public function __construct($id_client,$id_article,$titre_com, $contenu_com,$soft_deleted = false)
     {
+        $this->id_client=$id_client;
+        $this->id_client=$id_article;
         $this->titre_com=$titre_com;
         $this->contenu_com=$contenu_com;
         $this->soft_deleted=$soft_deleted;

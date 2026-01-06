@@ -22,9 +22,9 @@ class Article{
     private $id_theme;
     private $id_client;
 
-    public function __construct($id_article,$id_theme,$id_client,$titre_article, $contenu,$tags,$status = TRUE)
+    public function __construct($id_theme,$id_client,$titre_article, $contenu,$tags,$status = TRUE)
     {   
-        $this->id_article=$id_article;
+        
         $this->id_theme=$id_theme;
         $this->id_client=$id_client;
         $this->titre_article=$titre_article;
