@@ -17,3 +17,15 @@ CREATE TABLE articles(
    FOREIGN KEY (id_theme) REFERNCES themes(id_theme),
    FOREIGN KEY (id_client) REFERNCES users(id)
 )
+CREATE TABLE commentaires(
+    id_commentaire int AUTO_INCREMENT PRIMARY KEY,
+    id_client int NOT NULL,
+    id_article int NOT NULL,
+    titre_com varchar(50),
+    contenu_com varchar(5000),
+    date_commentaire DATE DEFAULT CURRENT_Date,
+    soft_deleted BOOLEAN DEFAULT FALSE,
+
+   FOREIGN KEY (id_article) REFERNCES articles(id_article),
+   FOREIGN KEY (id_client) REFERNCES users(id_client)
+)
