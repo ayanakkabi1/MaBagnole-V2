@@ -1,5 +1,7 @@
-//id_commentaire	id_client	id_article	titre_com	contenu_com	 date_commentaire	soft_deleted	
 <?php
+namespace Blog;
+use PDO;
+//id_commentaire	id_client	id_article	titre_com	contenu_com	 date_commentaire	soft_deleted	
 class Commentaire{
 
     private $id_commentaire;

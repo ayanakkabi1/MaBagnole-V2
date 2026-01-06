@@ -1,6 +1,6 @@
 <?php
-
-
+namespace Blog;
+use PDO;
 class Avis {
     private int $id;
     private int $idClient;
@@ -12,7 +12,7 @@ class Avis {
         $this->id = $id;
         $this->idClient = $idClient;
         $this->idVehicule = $idVehicule;
-        $this->setNote($note); // Utilise le setter pour valider la note
+        $this->setNote($note); 
         $this->commentaire = $commentaire;
     }
 

@@ -1,16 +1,13 @@
-//CREATE TABLE themes(
-    id_theme int AUTO_INCREMENT  PRIMARY KEY,
-    titre_theme varchar(50) NOT NULL,
-    description_theme varchar(2500),
-    actif BOOLEAN DEFAULT TRUE 
-)
-
 <?php
-class theme{
+namespace Blog;
+use PDO;
+
+class Theme{
     private $id_theme;
     private $titre_theme;
     private $description_theme;
     private $actif;
+    private $pdo;
     public function __construct($titre_theme, $description_theme,$actif = true)
     {
         $this->titre_theme=$titre_theme;
@@ -34,6 +31,12 @@ class theme{
 
         $this->$att = $value;
     }
-
+    
+    public static function listerTousActifs(PDO $pdo){
+        $sql="SELECT * FROM themes where actif=1";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
