@@ -1,4 +1,40 @@
+<?php
+session_start(); 
+require_once 'classes/Database.php';
+include_once 'classes/blog/Article.php';
+include_once 'classes/blog/Theme.php';
 
+use Blog\Theme; 
+use Blog\Article;
+
+$id_article = isset($_GET['id']) ? (int)$_GET['id'] : null;
+$article = null;
+
+if ($id_article) {
+    try {
+        $db = new Database();
+        $pdo = $db->getPdo();
+
+        
+        $sql = "SELECT a.*, t.titre_theme 
+                FROM articles a 
+                JOIN themes t ON a.id_theme = t.id_theme 
+                WHERE a.id_article = :id AND a.status = 1";
+        
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['id' => $id_article]);
+        $article = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    } catch (Exception $e) {
+        $erreur = "Erreur de base de données.";
+    }
+}
+
+if (!$article) {
+    header('Location: blog.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
