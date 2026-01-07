@@ -51,7 +51,7 @@ if (!$article) {
             <span class="text-[10px] font-black border-2 border-black px-2 py-1">LECTURE_DOSSIER_<?= $article['id_article'] ?></span>
         </div>
     </header>
-
+    
     <main class="max-w-4xl mx-auto p-8 pt-16">
         
         <div class="mb-12">

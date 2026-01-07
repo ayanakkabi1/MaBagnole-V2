@@ -6,7 +6,9 @@ include_once 'classes/blog/Theme.php';
 
 use Blog\Theme;
 
+// 1. Initialisation des variables et récupération des paramètres GET
 $id_theme_selectionne = isset($_GET['theme']) ? (int)$_GET['theme'] : null;
+$recherche = isset($_GET['search']) ? trim($_GET['search']) : '';
 $articles = [];
 $list_theme = [];
 $erreur = null;
@@ -15,21 +17,36 @@ try {
     $db = new Database();
     $pdo = $db->getPdo();
 
-    
+    // 2. RÉCUPÉRATION DES THÈMES (Toujours pour le menu)
     $list_theme = Theme::listerTousActifs($pdo);
 
-    
+    // 3. RÉCUPÉRATION DES ARTICLES (Logique filtrée par thème ET/OU recherche)
+    // On construit la requête de base
+    $sql = "SELECT a.*, t.titre_theme 
+            FROM articles a 
+            JOIN themes t ON a.id_theme = t.id_theme 
+            WHERE a.status = 1";
+
+    $params = [];
+
+    // Si un thème est sélectionné, on filtre
     if ($id_theme_selectionne) {
-        $sql = "SELECT a.*, t.titre_theme 
-                FROM articles a 
-                JOIN themes t ON a.id_theme = t.id_theme 
-                WHERE a.id_theme = :id 
-                AND a.status = 1 
-                ORDER BY a.date_publication DESC";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(['id' => $id_theme_selectionne]);
-        $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $sql .= " AND a.id_theme = :id_theme";
+        $params['id_theme'] = $id_theme_selectionne;
     }
+
+    // Si une recherche est tapée, on filtre par titre
+    if (!empty($recherche)) {
+        $sql .= " AND a.titre_article LIKE :search";
+        $params['search'] = "%$recherche%";
+    }
+
+    $sql .= " ORDER BY a.date_publication DESC";
+    
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 } catch (Exception $e) {
     $erreur = "Système hors ligne : " . $e->getMessage();
 }
@@ -42,7 +59,6 @@ try {
     <title>MA BAGNOLE - BLOG</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        
         .scrollbar-custom::-webkit-scrollbar { height: 12px; }
         .scrollbar-custom::-webkit-scrollbar-track { background: #fff; border: 4px solid #000; }
         .scrollbar-custom::-webkit-scrollbar-thumb { background: #000; border: 2px solid #fff; }
@@ -58,7 +74,7 @@ try {
 <body class="bg-white text-black font-sans uppercase">
 
     <header class="border-b-8 border-black p-8 flex justify-between items-center sticky top-0 bg-white z-50">
-        <a href="index.php" class="text-4xl font-black italic tracking-tighter hover:skew-x-12 transition">MA BAGNOLE.</a>
+        <a href="blog.php" class="text-4xl font-black italic tracking-tighter hover:skew-x-12 transition">MA BAGNOLE.</a>
         <nav class="flex gap-6 font-black text-xs italic">
             <a href="dashboard_client.php" class="border-2 border-black px-4 py-2 hover:bg-black hover:text-white transition">DASHBOARD</a>
             <a href="logout.php" class="bg-red-600 text-white px-4 py-2 border-2 border-black">SORTIE</a>
@@ -69,21 +85,44 @@ try {
         
         <div class="mb-16">
             <h1 class="text-8xl font-black leading-none italic underline decoration-8">L'ARCHIVE.</h1>
-            <p class="text-xl font-bold mt-4 opacity-60">Sélectionnez une catégorie pour extraire les données.</p>
+            <p class="text-xl font-bold mt-4 opacity-60">Filtrez par Theme ou recherchez par titre.</p>
         </div>
+
+        <section class="mb-12">
+            <form action="blog.php" method="GET" class="flex flex-col md:flex-row gap-4">
+                <?php if($id_theme_selectionne): ?>
+                    <input type="hidden" name="theme" value="<?= $id_theme_selectionne ?>">
+                <?php endif; ?>
+
+                <div class="relative flex-grow">
+                    <input type="text" 
+                           name="search" 
+                           value="<?= htmlspecialchars($recherche) ?>" 
+                           placeholder="RECHERCHER UN DOSSIER (EX: MOTEUR, SKYLINE...)" 
+                           class="w-full border-4 border-black p-4 font-black italic placeholder:text-gray-400 focus:bg-yellow-400 outline-none transition-colors">
+                </div>
+                
+                <button type="submit" class="bg-black text-white px-8 py-4 font-black hover:bg-white hover:text-black border-4 border-black transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:shadow-none">
+                    RECHERCHER
+                </button>
+
+                <?php if(!empty($recherche) || $id_theme_selectionne): ?>
+                    <a href="blog.php" class="border-4 border-black p-4 text-center font-black hover:bg-gray-100 italic text-xs flex items-center">Tous les articles</a>
+                <?php endif; ?>
+            </form>
+        </section>
 
         <section class="mb-16">
             <div class="flex items-start gap-6 overflow-x-auto pb-8 scrollbar-custom">
-                
                 <div class="bg-black text-white p-4 shrink-0 border-4 border-black sticky left-0 z-20">
                     <span class="font-black text-xs italic uppercase">Catégories :</span>
                 </div>
-
+                   
                 <div class="flex flex-nowrap gap-6">
                     <?php if (!empty($list_theme)): ?>
                         <?php foreach ($list_theme as $theme): ?>
                             <div class="group relative shrink-0">
-                                <a href="?theme=<?= $theme['id_theme'] ?>" 
+                                <a href="?theme=<?= $theme['id_theme'] ?><?= !empty($recherche) ? '&search='.urlencode($recherche) : '' ?>" 
                                    class="<?= ($id_theme_selectionne == $theme['id_theme']) ? 'bg-black text-white' : 'bg-white text-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]' ?> border-4 border-black px-8 py-4 font-black text-sm italic hover:bg-black hover:text-white transition-all block">
                                     #<?= htmlspecialchars($theme['titre_theme']) ?>
                                 </a>
@@ -107,48 +146,41 @@ try {
                 </div>
             <?php endif; ?>
 
-            <?php if ($id_theme_selectionne): ?>
-                
-                <?php if (!empty($articles)): ?>
-                    <?php foreach ($articles as $art): ?>
-                        <article class="brutalist-card border-8 border-black p-8 bg-white transition-all flex flex-col group">
-                            <div class="flex justify-between items-start mb-6">
-                                <span class="bg-black text-white px-3 py-1 text-xs font-black italic uppercase">
-                                    <?= htmlspecialchars($art['titre_theme']) ?>
-                                </span>
-                                <span class="text-xs font-black opacity-30 italic">
-                                    <?= date('d.m.Y', strtotime($art['date_publication'])) ?>
-                                </span>
-                            </div>
+            <?php if (!empty($articles)): ?>
+                <?php foreach ($articles as $art): ?>
+                    <article class="brutalist-card border-8 border-black p-8 bg-white transition-all flex flex-col group">
+                        <div class="flex justify-between items-start mb-6">
+                            <span class="bg-black text-white px-3 py-1 text-xs font-black italic uppercase">
+                                <?= htmlspecialchars($art['titre_theme']) ?>
+                            </span>
+                            <span class="text-xs font-black opacity-30 italic">
+                                <?= date('d.m.Y', strtotime($art['date_publication'])) ?>
+                            </span>
+                        </div>
 
-                            <h2 class="text-4xl font-black mb-6 leading-tight italic uppercase">
-                                <?= htmlspecialchars($art['titre_article']) ?>
-                            </h2>
-                            
-                            <p class="text-md font-bold mb-10 opacity-70 flex-grow italic">
-                                <?= mb_strimwidth(htmlspecialchars($art['contenu']), 0, 180, "...") ?>
-                            </p>
+                        <h2 class="text-4xl font-black mb-6 leading-tight italic uppercase">
+                            <?= htmlspecialchars($art['titre_article']) ?>
+                        </h2>
+                        
+                        <p class="text-md font-bold mb-10 opacity-70 flex-grow italic">
+                            <?= mb_strimwidth(htmlspecialchars($art['contenu']), 0, 180, "...") ?>
+                        </p>
 
-                            <a href="article.php?id=<?= $art['id_article'] ?>" 
-                               class="border-4 border-black py-4 text-center font-black text-lg hover:bg-black hover:text-white transition italic uppercase">
-                                Ouvrir le dossier →
-                            </a>
-                        </article>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <div class="col-span-full border-8 border-black border-dashed p-32 text-center">
-                        <p class="text-4xl font-black italic opacity-20 uppercase tracking-widest">Aucune donnée trouvée.</p>
-                    </div>
-                <?php endif; ?>
-
+                        <a href="article.php?id=<?= $art['id_article'] ?>" 
+                           class="border-4 border-black py-4 text-center font-black text-lg hover:bg-black hover:text-white transition italic uppercase">
+                            Ouvrir le dossier →
+                        </a>
+                    </article>
+                <?php endforeach; ?>
             <?php else: ?>
-                <div class="col-span-full border-8 border-black p-20 text-center bg-gray-50 shadow-[20px_20px_0px_0px_rgba(0,0,0,0.05)]">
-                    <p class="text-4xl font-black italic uppercase animate-pulse leading-none">Accès restreint.<br>Sélectionnez une archive.</p>
-                    <p class="mt-4 font-bold opacity-50 italic">Utilisez la navigation horizontale ci-dessus.</p>
+                <div class="col-span-full border-8 border-black border-dashed p-32 text-center bg-gray-50">
+                    <p class="text-4xl font-black italic opacity-20 uppercase tracking-widest">
+                        <?= (!empty($recherche)) ? "Aucun résultat pour : ".htmlspecialchars($recherche) : "Archive vide." ?>
+                    </p>
+                    <a href="blog.php" class="mt-4 inline-block underline font-black">Retourner à l'index</a>
                 </div>
             <?php endif; ?>
         </section>
-
     </main>
 
     <footer class="mt-32 border-t-8 border-black p-20 bg-black text-white flex flex-col md:flex-row justify-between items-center">
