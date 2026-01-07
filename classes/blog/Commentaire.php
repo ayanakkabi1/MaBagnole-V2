@@ -37,7 +37,7 @@ class Commentaire{
     }
     
     public static function listerParArticle($pdo, $idArticle){
-        $sql="Select * commentaire where id_article=:idArticle";
+        $sql="Select * FROM commentaire where id_article=:idArticle";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

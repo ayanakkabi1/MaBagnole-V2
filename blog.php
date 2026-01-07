@@ -129,7 +129,7 @@ try {
                                 <?= mb_strimwidth(htmlspecialchars($art['contenu']), 0, 180, "...") ?>
                             </p>
 
-                            <a href="article_detail.php?id=<?= $art['id_article'] ?>" 
+                            <a href="article.php?id=<?= $art['id_article'] ?>" 
                                class="border-4 border-black py-4 text-center font-black text-lg hover:bg-black hover:text-white transition italic uppercase">
                                 Ouvrir le dossier →
                             </a>

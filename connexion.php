@@ -1,11 +1,9 @@
 <?php 
+session_start();
 require_once 'classes/Database.php';
 require_once 'classes/Client.php';
 
-session_start();
-
 $erreur = null;
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
