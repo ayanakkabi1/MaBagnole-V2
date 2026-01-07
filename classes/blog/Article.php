@@ -54,5 +54,14 @@ class Article{
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+     //rechercherParTitre($pdo, $motCle) utilisant LIKE.
+    public static function rechercherParTitre($pdo, $motCle){
+        $sql="SELECT * FROM article
+        where titre_article Like 'motCle'";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>
