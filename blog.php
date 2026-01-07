@@ -6,7 +6,6 @@ include_once 'classes/blog/Theme.php';
 
 use Blog\Theme;
 
-// 1. Initialisation des variables et récupération des paramètres GET
 $id_theme_selectionne = isset($_GET['theme']) ? (int)$_GET['theme'] : null;
 $recherche = isset($_GET['search']) ? trim($_GET['search']) : '';
 $articles = [];
@@ -17,11 +16,10 @@ try {
     $db = new Database();
     $pdo = $db->getPdo();
 
-    // 2. RÉCUPÉRATION DES THÈMES (Toujours pour le menu)
+    
     $list_theme = Theme::listerTousActifs($pdo);
 
-    // 3. RÉCUPÉRATION DES ARTICLES (Logique filtrée par thème ET/OU recherche)
-    // On construit la requête de base
+    
     $sql = "SELECT a.*, t.titre_theme 
             FROM articles a 
             JOIN themes t ON a.id_theme = t.id_theme 
@@ -29,13 +27,13 @@ try {
 
     $params = [];
 
-    // Si un thème est sélectionné, on filtre
+   
     if ($id_theme_selectionne) {
         $sql .= " AND a.id_theme = :id_theme";
         $params['id_theme'] = $id_theme_selectionne;
     }
 
-    // Si une recherche est tapée, on filtre par titre
+    
     if (!empty($recherche)) {
         $sql .= " AND a.titre_article LIKE :search";
         $params['search'] = "%$recherche%";

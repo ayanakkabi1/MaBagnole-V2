@@ -32,8 +32,8 @@
     </header>
     <main class="max-w-4xl mx-auto p-8">
     <div class="mb-12 border-l-8 border-black pl-6">
-        <h1 class="text-6xl font-black italic uppercase leading-none">Nouveau_Dossier.</h1>
-        <p class="font-bold opacity-50 italic mt-2">Injection de données dans l'archive système.</p>
+        <h1 class="text-6xl font-black italic uppercase leading-none">Nouveau_article.</h1>
+        <p class="font-bold opacity-50 italic mt-2">Ajouter votre propre article.</p>
     </div>
 
     <form action="traitement_article.php" method="POST" class="space-y-10">
@@ -42,7 +42,7 @@
             
             <div class="grid grid-cols-1 gap-8">
                 <div class="flex flex-col">
-                    <label for="titre_article" class="text-xs font-black italic mb-2">TITRE_DU_DOSSIER :</label>
+                    <label for="titre_article" class="text-xs font-black italic mb-2">Titre_article :</label>
                     <input type="text" 
                            id="titre_article" 
                            name="titre_article" 
