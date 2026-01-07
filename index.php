@@ -2,86 +2,47 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>MaBagnole | Louez en toute liberté</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --primary: #1a2a6c; --accent: #fdbb2d; }
-        .hero-search { background: var(--primary); padding: 40px 0; color: white; border-radius: 0 0 20px 20px; }
-        .car-card { transition: transform 0.3s; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .car-card:hover { transform: translateY(-10px); }
-        .btn-reserve { background-color: var(--accent); color: #000; font-weight: bold; }
-        .filter-sidebar { background: #f8f9fa; padding: 20px; border-radius: 10px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MA BAGNOLE - Accueil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-white text-black min-h-screen flex flex-col">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#">🚗 MaBagnole</a>
-        <div class="ms-auto">
-            <a href="connexion.php" class="btn btn-outline-light btn-sm">Connexion</a>
-        </div>
-    </div>
-</nav>
-
-<header class="hero-search text-center mb-5">
-    <div class="container">
-        <h1>Trouvez le véhicule idéal</h1>
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-8">
-                <form class="input-group">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Modèle, marque...">
-                    <button class="btn btn-warning" type="button"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
-        </div>
-    </div>
-</header>
-
-<div class="container">
-    <div class="row">
-        <aside class="col-lg-3 mb-4">
-            <div class="filter-sidebar">
-                <h5>Catégories</h5>
-                <div class="form-check">
-                    <input class="form-check-input filter-check" type="checkbox" value="Citadine" id="cat1">
-                    <label class="form-check-label" for="cat1">Citadine</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input filter-check" type="checkbox" value="SUV" id="cat2">
-                    <label class="form-check-label" for="cat2">SUV</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input filter-check" type="checkbox" value="Luxe" id="cat3">
-                    <label class="form-check-label" for="cat3">Luxe</label>
-                </div>
-            </div>
-        </aside>
-
-        <main class="col-lg-9">
-            <div class="row" id="vehiculeContainer">
-               
-               
-                
-                
-            </div>
-
-            <nav class="mt-4">
-                
+    <header class="border-b-4 border-black p-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-black italic tracking-tighter">MA BAGNOLE.</h1>
+            <nav class="hidden md:flex space-x-8 font-bold uppercase text-sm">
+                <a href="index.php" class="underline decoration-4">Accueil</a>
+                <a href="vehicules.php" class="hover:underline">Mes Véhicules</a>
+                <a href="connexion.php" class="hover:underline">Connexion</a>
             </nav>
-        </main>
-    </div>
-</div>
+            <a href="inscription.php" class="bg-black text-white px-6 py-2 font-black uppercase text-sm hover:bg-white hover:text-black border-2 border-black transition">S'inscrire</a>
+        </div>
+    </header>
 
-<script>
-document.querySelectorAll('.filter-check').forEach(check => {
-    check.addEventListener('change', function() {
-        
-        console.log("Filtrage en cours pour : " + this.value);
-    });
-});
-</script>
+    <main class="flex-grow">
+        <section class="max-w-7xl mx-auto px-6 py-20">
+            <div class="border-l-8 border-black pl-8">
+                <h2 class="text-7xl md:text-9xl font-black uppercase leading-none mb-6">DOMINEZ VOTRE<br>GARAGE.</h2>
+                <p class="text-xl max-w-lg font-medium mb-8">La gestion automobile sans compromis. Simple, brut, efficace.</p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="inscription.php" class="bg-black text-white px-10 py-4 font-black uppercase text-xl border-4 border-black hover:bg-white hover:text-black transition">Démarrer maintenant</a>
+                    <a href="blog.php" class="bg-white text-black px-10 py-4 font-black uppercase text-xl border-4 border-black hover:bg-black hover:text-white transition">Lire le blog</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t-4 border-black p-10 bg-black text-white">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="font-black italic text-xl">MA BAGNOLE.</p>
+            <p class="text-sm uppercase font-bold tracking-widest">&copy; 2026 DESIGNED IN BLACK AND WHITE</p>
+            <div class="flex space-x-6 text-xs font-bold uppercase">
+                <a href="#" class="hover:underline">Mentions</a>
+                <a href="#" class="hover:underline">Contact</a>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>

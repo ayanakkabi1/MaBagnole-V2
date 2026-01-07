@@ -99,4 +99,14 @@ INSERT INTO themes (titre_theme, description_theme, actif) VALUES
 ('Entretien automobile', 'Conseils et bonnes pratiques pour l entretien des voitures', TRUE),
 ('Comparatifs auto', 'Comparaison entre différents modèles de voitures', TRUE);
 
+INSERT INTO users(nom,email,mot_de_passe_hash,date_creation,role) VALUES 
+('admin','admin@gmail.com', SHA2('admin', 256) , '2025-12-16','admin');
 
+INSERT INTO articles (id_theme, id_client, titre_article, contenu, tags, date_publication, status) VALUES
+(1, 1, 'CHANGER SON JOINT DE CULASSE', 'Le joint de culasse est l''un des composants les plus critiques de votre moteur. Ce dossier technique de 3000 mots détaille chaque étape : de la vidange du liquide de refroidissement jusqu''au serrage au couple spécifique des vis de culasse...', 'TUTO, MOTEUR, RÉPARATION', '2026-01-02', 1),
+
+(4, 1, 'L''HÉRITAGE DE LA SKYLINE GT-R', 'Surnommée "Godzilla", la Nissan Skyline GT-R a dominé les circuits japonais avant de conquérir le monde. Nous analysons ici l''évolution du moteur RB26DETT et pourquoi cette voiture reste un investissement majeur aujourd''hui...', 'HISTOIRE, JDM, ICONE', '2026-01-04', 1),
+
+(2, 1, 'LA MÉTHODE DES DEUX SEAUX', 'Le detailing ne s''improvise pas. Pour éviter les micro-rayures sur votre peinture noire vernie, la méthode des deux seaux est indispensable. Voici comment préparer votre eau, choisir votre gant en microfibre et sécher sans contact...', 'NETTOYAGE, DETAILING, LOOK', '2026-01-05', 1),
+
+(3, 1, 'COMPRENDRE LES CODES OBD-II', 'Votre voyant moteur est allumé ? Pas de panique. Ce guide explique comment lire les codes d''erreur avec une interface ELM327 et interpréter les codes P0xxx pour diagnostiquer un mélange trop pauvre ou un raté d''allumage...', 'TECH, DIAGNOSTIC, DIY', '2026-01-07', 1);

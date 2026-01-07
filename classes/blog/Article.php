@@ -1,17 +1,6 @@
-//CREATE TABLE articles(
-    id_article int AUTO_INCREMENT PRIMARY KEY,
-    id_theme int NOT NULL,
-    id_client int NOT NULL,
-    titre_article varchar(50) NOT NULL,
-    contenu varchar(5000),
-    tags varchar(200),
-    date_publication DATE,
-    status BOOLEAN DEFAULT TRUE,
-
-   FOREIGN KEY (id_theme) REFERNCES themes(id_theme),
-   FOREIGN KEY (id_client) REFERNCES users(id)
-),	
 <?php
+namespace Blog;
+use PDO;
 class Article{
 
     private $id_article;
@@ -51,6 +40,19 @@ class Article{
 
         $this->$att = $value;
     }
-    
+    //listerParTheme($pdo, $idTheme)
+    //trouverParId($pdo, $id)
+    public static function listerParTheme($pdo, $idTheme){
+        $sql="SELECT * FROM article where id_theme=:idTheme";
+         $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function trouverParId($pdo, $id){
+        $sql="SELECT * FROM article where id_article=:id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

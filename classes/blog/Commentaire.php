@@ -33,9 +33,14 @@ class Commentaire{
         if ($att === 'soft_deleted') {
             $value = (bool) $value;
         }
-
         $this->$att = $value;
     }
     
+    public static function listerParArticle($pdo, $idArticle){
+        $sql="Select * commentaire where id_article=:idArticle";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
