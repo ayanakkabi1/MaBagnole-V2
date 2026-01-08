@@ -58,7 +58,6 @@ class Commentaire{
         $stmtSelect->execute([':id_article' => $this->id_article]);
         return $stmtSelect->fetchAll(PDO::FETCH_OBJ);
     }
-
     return [];
 }
 }
