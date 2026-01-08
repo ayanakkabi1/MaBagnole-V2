@@ -41,7 +41,7 @@ class Commentaire{
         $stmt->execute([':idArticle' => $idArticle]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function ajouter($pdo) {
+    public  function ajouter($pdo) {
     $sqlInsert = "INSERT INTO commentaires (id_client, id_article, titre_com, contenu_com, date_commentaire, soft_deleted) 
                   VALUES (:id_client, :id_article, :titre, :contenu, NOW(), 0)";
     

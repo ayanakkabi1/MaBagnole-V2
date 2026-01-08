@@ -1,11 +1,15 @@
 <?php
+session_start();
 require_once 'classes/Database.php';
 include_once 'classes/blog/Article.php';
 include_once 'classes/blog/Commentaire.php';
 
 use Blog\Article;
 use Blog\Commentaire;
-
+ $db=new Database;
+ $pdo=$db->getPdo();
+ $id_article = isset($_GET['id']) ? (int)$_GET['id'] : null;
+ $commentaires= Commentaire::listerParArticle($pdo,$id_article);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
