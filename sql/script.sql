@@ -130,3 +130,17 @@ CREATE table article_tags(
     FOREIGN KEY (id_article) REFERENCES articles (id_article),
     FOREIGN KEY (id_tags) REFERENCES tags (id_tags)
 )
+INSERT INTO article_tags (id_article, id_tag) VALUES
+
+(12, 3), 
+(12, 4), 
+(12, 5), 
+
+(13, 8), 
+(13, 7), 
+
+(14, 1),
+(14, 7),
+
+(15, 6), 
+(15, 3); 
