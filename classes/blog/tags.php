@@ -1,11 +1,10 @@
-
 <?php
 class Tag{
-    private $id_tags;
-    private $titre_tags;
-    public function __construct($titre_tags)
+    private $id_tag;
+    private $titre_tag;
+    public function __construct($titre_tag)
     {
-        $this->titre_tags=$titre_tags;
+        $this->titre_tags=$titre_tag;
     }
        public function __get(string $name) {
         if (property_exists($this, $name)) {
@@ -15,7 +14,7 @@ class Tag{
     }
 
   
-    public function __set(string $name, $value) {
+    public function __set(string $name, $value){
     if (property_exists($this, $name)) {
         $this->$name = $value;
     }
