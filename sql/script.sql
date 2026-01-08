@@ -110,3 +110,7 @@ INSERT INTO articles (id_theme, id_client, titre_article, contenu, tags, date_pu
 (2, 1, 'LA MÉTHODE DES DEUX SEAUX', 'Le detailing ne s''improvise pas. Pour éviter les micro-rayures sur votre peinture noire vernie, la méthode des deux seaux est indispensable. Voici comment préparer votre eau, choisir votre gant en microfibre et sécher sans contact...', 'NETTOYAGE, DETAILING, LOOK', '2026-01-05', 1),
 
 (3, 1, 'COMPRENDRE LES CODES OBD-II', 'Votre voyant moteur est allumé ? Pas de panique. Ce guide explique comment lire les codes d''erreur avec une interface ELM327 et interpréter les codes P0xxx pour diagnostiquer un mélange trop pauvre ou un raté d''allumage...', 'TECH, DIAGNOSTIC, DIY', '2026-01-07', 1);
+CREATE table Tags (
+    id_tags int AUTO_INCREMENT PRIMARY KEY ,
+    titre_tags varchar(50),
+)

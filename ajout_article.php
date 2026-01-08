@@ -1,4 +1,49 @@
-<?php
+<?php 
+session_start(); 
+require_once 'classes/Database.php';
+include_once 'classes/blog/Article.php';
+include_once 'classes/blog/Theme.php';
+
+use Blog\Theme;
+
+$id_theme_selectionne = isset($_GET['theme']) ? (int)$_GET['theme'] : null;
+$recherche = isset($_GET['search']) ? trim($_GET['search']) : '';
+$articles = [];
+$list_theme = [];
+$erreur = null;
+
+    $db = new Database();
+    $pdo = $db->getPdo();
+
+    
+    $list_theme = Theme::listerTousActifs($pdo);
+    $erreurs = [];
+
+if (empty($_POST['titre_article'])) {
+    $erreurs[] = "Le nom est obligatoire.";
+}
+if (empty($_POST['id_theme'])) {
+    $erreurs[] = "Le theme est obligatoire.";
+}
+
+if (empty($_POST['email'])) {
+    $erreurs[] = "L'email est obligatoire.";
+}
+if (empty($_POST['contenu'])) {
+    $erreurs[] = "Le contenu est obligatoire.";
+}
+if (empty($_POST['mot_de_passe'])) {
+    $erreurs[] = "Le mot de passe est obligatoire.";
+}
+
+if (empty($erreurs)) {
+   
+} else {
+    foreach ($erreurs as $erreur) {
+        echo $erreur . "<br>";
+    }
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -83,7 +128,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="bg-white border-8 border-black p-6 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]">
-                <label for="tags" class="text-xs font-black italic mb-2 block">TAGS (SÉPARÉS PAR DES VIRGULES) :</label>
+                <label for="tags" class="text-xs font-black !italic mb-2 block">TAGS (SÉPARÉS PAR DES VIRGULES) :</label>
                 <input type="text" 
                        id="tags" 
                        name="tags" 
@@ -93,7 +138,7 @@
 
             
         </div>
-
+        
         <div class="pt-10">
             <button type="submit" 
                     class="w-full bg-black text-white border-8 border-black p-6 text-3xl font-black italic uppercase hover:bg-white hover:text-black transition-all shadow-[20px_20px_0px_0px_rgba(0,0,0,0.2)] active:shadow-none active:translate-x-2 active:translate-y-2">
