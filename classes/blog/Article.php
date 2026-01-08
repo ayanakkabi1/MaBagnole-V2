@@ -54,6 +54,7 @@ class Article{
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
      //rechercherParTitre($pdo, $motCle) utilisant LIKE.
     public static function rechercherParTitre($pdo, $motCle){
         $sql="SELECT * FROM article
@@ -62,6 +63,23 @@ class Article{
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public function insert(PDO $pdo): bool {
+        $sql = "INSERT INTO articles 
+                (id_theme, id_client, titre_article, contenu, date_publication, status)
+                VALUES (:id_theme, :id_client, :titre_article, :contenu, NOW(), 1)";
 
+        $stmt = $pdo->prepare($sql);
+
+        return $stmt->execute([
+            ':id_theme' => $this->id_theme,
+            ':id_client' => $this->id_client,
+            ':titre_article' => $this->titre_article,
+            ':contenu' => $this->contenu,
+            ':date_publication' => $this->date_publication,
+            ':status' => $this->status
+        ]);
+    }
+    
 }
-?>
+?>  

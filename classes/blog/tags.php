@@ -1,35 +1,38 @@
 <?php
-class Tag{
+class Tag
+{
     private $id_tag;
     private $titre_tag;
-    public function __construct($titre_tag)
+    public function __construct($id_tag = null, $titre_tag)
     {
-        $this->titre_tags=$titre_tag;
+        $this->titre_tag = $titre_tag;
+        $this->id_tag = $id_tag;
     }
-       public function __get(string $name) {
+    public function __get(string $name)
+    {
         if (property_exists($this, $name)) {
             return $this->$name;
         }
-       return null;
+        return null;
     }
 
-  
-    public function __set(string $name, $value){
-    if (property_exists($this, $name)) {
-        $this->$name = $value;
+
+    public function __set(string $name, $value)
+    {
+        if (property_exists($this, $name)) {
+            $this->$name = $value;
+        }
     }
-    }
-    public static function listerTous(PDO $pdo){
-        $sql="SELECT * FROM tags";
+    public static function listerTous(PDO $pdo)
+    {
+        $sql = "SELECT * FROM tags";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
-        $tags = $stmt->fetchAll(PDO::FETCH_OBJ);
-        foreach($tags as $tag){
-            $tag_OBJ = new Tag($tag->id_tag,$tag->titre_tag);
-            $tags[] = $tag_OBJ;
+        $tags = [];
+        while ($tag = $stmt->fetch()) {
+            $tag_OBJ = new Tag($tag["id_tag"], $tag["titre_tags"]);
+            array_push($tags, $tag_OBJ);
         }
         return $tags;
-     }
-
+    }
 }
-?>
