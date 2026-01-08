@@ -8,8 +8,26 @@ use Blog\Article;
 use Blog\Commentaire;
  $db=new Database;
  $pdo=$db->getPdo();
+ $erreur=[];
  $id_article = isset($_GET['id']) ? (int)$_GET['id'] : null;
  $commentaires= Commentaire::listerParArticle($pdo,$id_article);
+ if($_SERVER['REQUEST_METHOD']==='POST'){
+    $titre=trim($POST['titre_com']??'');
+    $contenu=trim($POST['contenu_com']??'');
+ }
+if($titre==='')
+    $erreur='Le titre est obligatoire';
+if($contenu==='')
+    $erreur='Le contenu est obligatoire';
+
+if(empty($erreur)){
+    $comm=new Commentaire(
+        (int)$_SESSION['id_client'],
+        (int)$id_article,
+        $titre,
+        $contenu
+    );
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -39,7 +57,7 @@ use Blog\Commentaire;
     </div>
 
         <form method="POST" class="space-y-10">
-            <input type="hidden" name="id_article" value="<?= (int)$_GET['id'] ?>">
+            <input type="hidden" name="id_article" value="<?= (int)$_GET['id_article'] ?>">
 
             <div class="bg-white border-8 border-black p-8 shadow-[15px_15px_0px_0px_rgba(0,0,0,1)]">
                 <div class="grid grid-cols-1 gap-8">
