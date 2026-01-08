@@ -3,8 +3,9 @@ session_start();
 require_once 'classes/Database.php';
 include_once 'classes/blog/Article.php';
 include_once 'classes/blog/Theme.php';
-
+include_once 'classes/blog/tags.php';
 use Blog\Theme;
+use Blog\Article;
 
 $id_theme_selectionne = isset($_GET['theme']) ? (int)$_GET['theme'] : null;
 $recherche = isset($_GET['search']) ? trim($_GET['search']) : '';
