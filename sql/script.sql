@@ -112,5 +112,5 @@ INSERT INTO articles (id_theme, id_client, titre_article, contenu, tags, date_pu
 (3, 1, 'COMPRENDRE LES CODES OBD-II', 'Votre voyant moteur est allumé ? Pas de panique. Ce guide explique comment lire les codes d''erreur avec une interface ELM327 et interpréter les codes P0xxx pour diagnostiquer un mélange trop pauvre ou un raté d''allumage...', 'TECH, DIAGNOSTIC, DIY', '2026-01-07', 1);
 CREATE table Tags (
     id_tags int AUTO_INCREMENT PRIMARY KEY ,
-    titre_tags varchar(50),
-)
+    titre_tags varchar(50)
+);
