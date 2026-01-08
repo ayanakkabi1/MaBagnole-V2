@@ -1,7 +1,6 @@
 <?php
 namespace Blog;
-use PDO;
-//id_commentaire	id_client	id_article	titre_com	contenu_com	 date_commentaire	soft_deleted	
+use PDO;	
 class Commentaire{
 
     private $id_commentaire;
@@ -14,7 +13,7 @@ class Commentaire{
     public function __construct($id_client,$id_article,$titre_com, $contenu_com,$soft_deleted = false)
     {
         $this->id_client=$id_client;
-        $this->id_client=$id_article;
+        $this->id_article=$id_article;
         $this->titre_com=$titre_com;
         $this->contenu_com=$contenu_com;
         $this->soft_deleted=$soft_deleted;
@@ -25,7 +24,7 @@ class Commentaire{
             return $this->$att;
         }
         return null;
-    }
+    }                                                                                  
     public function __set($att, $value){
           if (!property_exists($this, $att)) {
             return false;
@@ -37,9 +36,9 @@ class Commentaire{
     }
     
     public static function listerParArticle($pdo, $idArticle){
-        $sql="Select * FROM commentaire where id_article=:idArticle";
+        $sql="Select * FROM commentaires where id_article=:idArticle";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute();
+        $stmt->execute([':idArticle' => $idArticle]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -3,12 +3,13 @@ session_start();
 require_once 'classes/Database.php';
 include_once 'classes/blog/Article.php';
 include_once 'classes/blog/Theme.php';
-
+include_once 'classes/blog/Commentaire.php';
 use Blog\Theme; 
 use Blog\Article;
-
+use Blog\Commentaire;
 $id_article = isset($_GET['id']) ? (int)$_GET['id'] : null;
 $article = null;
+$commentaires = [];
 
 if ($id_article) {
     try {
@@ -29,6 +30,7 @@ if ($id_article) {
         $erreur = "Erreur de base de données.";
     }
 }
+$commentaire=Commentaire::listerParArticle($pdo,$id_article);
 
 if (!$article) {
     header('Location: blog.php');
@@ -96,7 +98,51 @@ if (!$article) {
         </section>
 
     </main>
+    <section class="mt-20 mb-32">
+    <div class="flex items-center gap-4 mb-10">
+        <h3 class="text-4xl font-black italic uppercase">Feedback_Client.</h3>
+        <span class="bg-black text-white px-3 py-1 font-black text-sm">
+            <?= count($commentaires) ?>
+        </span>
+    </div>
 
+    <div class="space-y-8">
+        <?php if (!empty($commentaires)): ?>
+            <?php foreach ($commentaires as $com): ?>
+                <div class="border-4 border-black p-6 bg-white shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] flex gap-6">
+                    <div class="shrink-0 w-12 h-12 bg-yellow-400 border-4 border-black flex items-center justify-center font-black text-xl">
+                        <?= strtoupper(substr(htmlspecialchars($com['pseudo'] ?? 'A'), 0, 1)) ?>
+                    </div>
+
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="font-black italic text-lg uppercase">
+                                <?= htmlspecialchars($com['pseudo'] ?? 'Anonyme') ?>
+                            </span>
+                            <span class="text-[10px] font-bold opacity-40">
+                                <?= date($com['date_commentaire']) ?>
+                            </span>
+                        </div>
+                        <p class="font-bold text-sm italic opacity-80 normal-case leading-relaxed">
+                            <?= htmlspecialchars($com['contenu']) ?>
+                        </p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="border-4 border-black border-dashed p-12 text-center">
+                <p class="font-black italic opacity-30 uppercase">Aucune transmission reçue pour ce dossier.</p>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="mt-12">
+        <button class="bg-white text-black border-4 border-black px-8 py-4 font-black italic hover:bg-black hover:text-white transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:shadow-none">
+            + RÉDIGER_UN_COMMENTAIRE
+        </button>
+        
+    </div>
+</section>
     <footer class="bg-black text-white p-12 text-center">
         <p class="text-[10px] font-black tracking-widest uppercase opacity-50">Gazette_Officielle_Ma_Bagnole_2026</p>
     </footer>
