@@ -76,8 +76,8 @@ class Article{
             ':id_client' => $this->id_client,
             ':titre_article' => $this->titre_article,
             ':contenu' => $this->contenu,
-            ':date_publication' => $this->date_publication,
-            ':status' => $this->status
+            
+            
         ]);
     }
     

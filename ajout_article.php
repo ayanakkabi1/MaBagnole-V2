@@ -1,46 +1,59 @@
 <?php
 session_start();
 require_once 'classes/Database.php';
-include_once 'classes/blog/Article.php';
-include_once 'classes/blog/Theme.php';
+require_once 'classes/blog/Article.php';
+require_once 'classes/blog/Theme.php';
 
-
-use Blog\Theme;
 use Blog\Article;
+use Blog\Theme;
 
-$id_theme_selectionne = isset($_GET['theme']) ? (int)$_GET['theme'] : null;
-$recherche = isset($_GET['search']) ? trim($_GET['search']) : '';
-$articles = [];
-$list_theme = [];
-$erreur = null;
+if (!isset($_SESSION['client_id'])) {
+    header('Location: login.php');
+    exit;
+}
 
 $db = new Database();
 $pdo = $db->getPdo();
 
 $list_theme = Theme::listerTousActifs($pdo);
 $erreurs = [];
+$success = false;
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-if (empty($_POST['titre_article'])) {
-    $erreurs[] = "Le nom est obligatoire.";
+    $titre   = trim($_POST['titre_article'] ?? '');
+    $contenu = trim($_POST['contenu'] ?? '');
+    $idTheme = $_POST['id_theme'] ?? '';
+    $tags    = trim($_POST['tags'] ?? '');
+
+    if ($titre === '') {
+        $erreurs[] = "Le titre est obligatoire.";
+    }
+
+    if ($idTheme === '') {
+        $erreurs[] = "Le thème est obligatoire.";
+    }
+
+    if ($contenu === '') {
+        $erreurs[] = "Le contenu est obligatoire.";
+    }
+
+    if (empty($erreurs)) {
+        $article = new Article(
+            (int)$idTheme,
+            (int)$_SESSION['client_id'],
+            $titre,
+            $contenu,
+            $tags
+        );
+
+        if ($article->insert($pdo)) {
+            $success = true;
+        } else {
+            $erreurs[] = "Erreur lors de l'ajout de l'article.";
+        }
+    }
 }
-if (empty($_POST['id_theme'])) {
-    $erreurs[] = "Le theme est obligatoire.";
-}
-
-if (empty($_POST['email'])) {
-    $erreurs[] = "L'email est obligatoire.";
-}
-if (empty($_POST['contenu'])) {
-    $erreurs[] = "Le contenu est obligatoire.";
-}
-if (empty($_POST['mot_de_passe'])) {
-    $erreurs[] = "Le mot de passe est obligatoire.";
-}
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -90,8 +103,23 @@ if (empty($_POST['mot_de_passe'])) {
             <h1 class="text-6xl font-black italic uppercase leading-none">Nouveau_article.</h1>
             <p class="font-bold opacity-50 italic mt-2">Ajouter votre propre article.</p>
         </div>
+         <?php if (!empty($erreurs)): ?>
+    <div class="border-4 border-red-600 bg-red-100 p-4 mb-6">
+        <ul class="text-red-700 font-bold text-sm">
+            <?php foreach ($erreurs as $erreur): ?>
+                <li>• <?= htmlspecialchars($erreur) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
 
-        <form action="traitement_article.php" method="POST" class="space-y-10">
+<?php if ($success): ?>
+    <div class="border-4 border-green-600 bg-green-100 p-4 mb-6">
+        Article ajouté avec succès ✅
+    </div>
+<?php endif; ?>
+
+        <form method="POST" class="space-y-10">
 
             <div class="bg-white border-8 border-black p-8 shadow-[15px_15px_0px_0px_rgba(0,0,0,1)]">
 
@@ -156,15 +184,7 @@ if (empty($_POST['mot_de_passe'])) {
                 </button>
             </div>
         </form>
-        <?php if (!empty($erreurs)): ?>
-    <div class="border-4 border-red-600 bg-red-100 p-4 mb-6">
-        <ul class="text-red-700 font-bold text-sm">
-            <?php foreach ($erreurs as $erreur): ?>
-                <li>• <?= htmlspecialchars($erreur) ?></li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-<?php endif; ?>
+        
 
     </main>
     <footer class="mt-32 border-t-8 border-black p-20 bg-black text-white flex flex-col md:flex-row justify-between items-center">
