@@ -114,3 +114,12 @@ CREATE table Tags (
     id_tags int AUTO_INCREMENT PRIMARY KEY ,
     titre_tags varchar(50)
 );
+INSERT INTO tags (titre_tags) VALUES
+('Économique'),
+('SUV'),
+('Automatique'),
+('Diesel'),
+('Essence'),
+('Électrique'),
+('Familiale'),
+('Luxe');
