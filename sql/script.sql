@@ -124,6 +124,8 @@ INSERT INTO tags (titre_tags) VALUES
 ('Familiale'),
 ('Luxe');
 CREATE table article_tags(
+    id_article INT NOT NULL,
+    id_tags INT NOT NULL,
     PRIMARY key(id_article,id_tags),
     FOREIGN KEY (id_article) REFERENCES articles (id_article),
     FOREIGN KEY (id_tags) REFERENCES tags (id_tags)
