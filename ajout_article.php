@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php if ($success): ?>
     <div class="border-4 border-green-600 bg-green-100 p-4 mb-6">
-        Article ajouté avec succès ✅
+        Article ajouté avec succès 
     </div>
 <?php endif; ?>
 

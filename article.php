@@ -11,6 +11,7 @@ $id_article = isset($_GET['id']) ? (int)$_GET['id'] : null;
 $article = null;
 $commentaires = [];
 
+
 if ($id_article) {
     try {
         $db = new Database();
@@ -25,6 +26,7 @@ if ($id_article) {
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['id' => $id_article]);
         $article = $stmt->fetch(PDO::FETCH_ASSOC);
+        $commentaires= Commentaire::listerParArticle($pdo,$id_article);
 
     } catch (Exception $e) {
         $erreur = "Erreur de base de données.";
@@ -111,20 +113,20 @@ if (!$article) {
             <?php foreach ($commentaires as $com): ?>
                 <div class="border-4 border-black p-6 bg-white shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] flex gap-6">
                     <div class="shrink-0 w-12 h-12 bg-yellow-400 border-4 border-black flex items-center justify-center font-black text-xl">
-                        <?= strtoupper(substr(htmlspecialchars($com['pseudo'] ?? 'A'), 0, 1)) ?>
+                        <?= strtoupper(substr(htmlspecialchars($com['titre_com'] ?? 'A'), 0, 1)) ?>
                     </div>
 
                     <div class="flex-grow">
                         <div class="flex justify-between items-start mb-2">
                             <span class="font-black italic text-lg uppercase">
-                                <?= htmlspecialchars($com['pseudo'] ?? 'Anonyme') ?>
+                                <?= htmlspecialchars($com['titre_com'] ?? 'Anonyme') ?>
                             </span>
                             <span class="text-[10px] font-bold opacity-40">
                                 <?= date($com['date_commentaire']) ?>
                             </span>
                         </div>
                         <p class="font-bold text-sm italic opacity-80 normal-case leading-relaxed">
-                            <?= htmlspecialchars($com['contenu']) ?>
+                            <?= htmlspecialchars($com['contenu_com']) ?>
                         </p>
                     </div>
                 </div>
