@@ -41,7 +41,7 @@ class Commentaire{
         $stmt->execute([':idArticle' => $idArticle]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public  function ajouter($pdo) {
+    public function ajouter($pdo) {
     $sqlInsert = "INSERT INTO commentaires (id_client, id_article, titre_com, contenu_com, date_commentaire, soft_deleted) 
                   VALUES (:id_client, :id_article, :titre, :contenu, NOW(), 0)";
     
@@ -52,13 +52,6 @@ class Commentaire{
         ':titre'      => $this->titre_com,
         ':contenu'    => $this->contenu_com
     ]);
-    if ($success) {
-        $sqlSelect = "SELECT * FROM commentaires WHERE id_article = :id_article ORDER BY date_commentaire DESC";
-        $stmtSelect = $pdo->prepare($sqlSelect);
-        $stmtSelect->execute([':id_article' => $this->id_article]);
-        return $stmtSelect->fetchAll(PDO::FETCH_OBJ);
     }
-    return [];
-}
 }
 ?>
