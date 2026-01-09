@@ -1,4 +1,17 @@
-<?php session_start(); ?>
+<?php 
+session_start(); 
+require_once 'classes/Database.php';
+include_once 'classes/blog/Article.php';
+include_once 'classes/blog/Commentaire.php';
+
+use Blog\Article;
+use Blog\Commentaire;
+
+$db = new Database;
+$pdo = $db->getPdo();
+$id_article = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+$commentaires = Commentaire::listerParArticle($pdo, $id_article);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -42,18 +55,21 @@
 
             <div class="md:col-span-2 border-4 border-black p-8">
                 <h3 class="text-3xl font-black italic mb-8 border-b-4 border-black inline-block">MES DERNIERS COMMENTAIRES</h3>
-                <div class="space-y-6">
+                <?php foreach($commentaires as $com):?>
+                     <div class="space-y-6">
                     <div class="border-2 border-black p-4 bg-gray-50 group">
                         <div class="flex justify-between items-center mb-2 border-b-2 border-black pb-2">
-                            <span class="text-[10px] font-black italic underline">Article : Entretien Pneus</span>
+                            <span class="text-[10px] font-black italic underline"><?php ?></span>
                             <div class="flex gap-4">
                                 <button class="text-[10px] font-black italic underline">MODIFIER</button>
                                 <button class="text-[10px] font-black italic underline text-red-600">SUPPRIMER</button>
                             </div>
                         </div>
-                        <p class="font-bold italic">"Très utile, merci pour les infos sur la pression !"</p>
+                        <p class="font-bold italic"><?php ?></p>
                     </div>
                 </div>
+                <?php endforeach; ?>
+               
             </div>
         </div>
     </main>

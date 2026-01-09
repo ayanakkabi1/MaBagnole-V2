@@ -53,5 +53,21 @@ class Commentaire{
         ':contenu'    => $this->contenu_com
     ]);
     }
+    public static function listerParClient(PDO $pdo, int $id_client): array
+{
+    $sql = "SELECT *
+            FROM commentaires
+            WHERE id_client = :id_client
+            AND soft_deleted = 0
+            ORDER BY date_commentaire DESC";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':id_client' => $id_client
+    ]);
+
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+}
+
 }
 ?>
