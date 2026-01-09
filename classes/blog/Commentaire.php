@@ -74,10 +74,22 @@ class Commentaire
 
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-    public static function modifierCommentaire(Pdo $pdo, int $id_commentaire) {
-        $sql="UPDATE commentaires set titre_com=:titre,contenu=:contenu where id_com=:id_commentaires" ;
+    public static function modifierCommentaire(
+        PDO $pdo,
+        int $id_commentaire,
+        string $titre_com,
+        string $contenu_com
+    ) {
+        $sql = "UPDATE commentaires
+        SET titre_com = :titre,
+            contenu_com= :contenu
+        WHERE id_com = :id_commentaire";
+
         $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-         $stmt->fetchAll(PDO::FETCH_OBJ);
+        $stmt->execute([
+            ':titre' => $titre_com,
+            ':contenu' => $contenu_com,
+            ':id_commentaire' => $id_commentaire
+        ]);
     }
 }
