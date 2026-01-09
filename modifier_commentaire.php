@@ -18,8 +18,8 @@ $db = new Database();
 $pdo = $db->getPdo();
 $client_id = (int) $_SESSION['client_id'];
 $id_com = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-$commentaires = Commentaire::modifierCommentaire($pdo,$id_com);
-$title=$contenu='';
+$titre_com=$contenu_com='';
+$commentaires = Commentaire::modifierCommentaire( $pdo,$id_com,$titre_com,$contenu_com);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
