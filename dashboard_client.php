@@ -74,7 +74,7 @@ $commentaires = Commentaire::listerParClient($pdo, $client_id);
                                 <button class="text-[10px] font-black italic underline text-red-600">SUPPRIMER</button>
                             </div>
                         </div>
-                        <p class="font-bold italic">=</p>
+                        <p class="font-bold italic"><?= nl2br(htmlspecialchars($com->contenu_com)) ?></p>
                     </div>
                 </div>
                 <?php endforeach; ?>
