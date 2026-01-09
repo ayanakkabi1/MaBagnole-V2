@@ -8,13 +8,10 @@ use Blog\Article;
 use Blog\Commentaire;
  $db=new Database;
  $pdo=$db->getPdo();
- if (!isset($_SESSION['id_client'])) {
-    header('Location: connexion.php');
-    exit;
-}
+
  $erreur=[];
  $success=FALSE;
-
+$client_id = (int) $_SESSION['client_id'];
 $id_article = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
  $commentaires= Commentaire::listerParArticle($pdo,$id_article);
@@ -28,7 +25,7 @@ if($contenu==='')
 
 if(empty($erreur)){
     $comm=new Commentaire(
-        (int)$_SESSION['id_client'],
+        (int)$client_id,
         (int)$id_article,
         $titre,
         $contenu
@@ -36,7 +33,7 @@ if(empty($erreur)){
     if ($comm->ajouter($pdo)) {
             $success = true;
         } else {
-            $erreurs[] = "Erreur lors de l'ajout de l'article.";
+            $erreur[] = "Erreur lors de l'ajout de l'article.";
         }
 }
  }
@@ -70,7 +67,7 @@ if(empty($erreur)){
     </div>
 
         <form method="POST" class="space-y-10">
-            <input type="hidden" name="id_article" value="<?= (int)$_GET['id_article'] ?>">
+            <input type="hidden" name="id_article" value="<?=' id_article' ?>">
 
             <div class="bg-white border-8 border-black p-8 shadow-[15px_15px_0px_0px_rgba(0,0,0,1)]">
                 <div class="grid grid-cols-1 gap-8">

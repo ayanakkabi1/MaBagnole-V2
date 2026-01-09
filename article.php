@@ -137,7 +137,7 @@ if (!$article) {
     </div>
 
     <div class="mt-12">
-        <a href="ajout_commentaire.php" class="text-black border-4 border-black px-8 py-4 font-black italic hover:bg-black hover:text-white transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:shadow-none">
+        <a href="ajout_commentaire.php?id=<?= (int)$id_article ?>"" class="text-black border-4 border-black px-8 py-4 font-black italic hover:bg-black hover:text-white transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:shadow-none">
             + RÉDIGER_UN_COMMENTAIRE
         </a>
         

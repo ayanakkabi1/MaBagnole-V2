@@ -29,12 +29,13 @@
                 <a href="ajout_article.php" class="block bg-black text-white p-8 border-4 border-black text-center hover:bg-white hover:text-black transition">
                     <span class="text-3xl font-black italic underline decoration-4">+ AJOUTER ARTICLE</span>
                 </a>
+                
                 <div class="border-4 border-black p-6">
                     <h3 class="text-xl font-black italic mb-4 border-b-2 border-black pb-2">EXPLORER THÈMES</h3>
                     <ul class="space-y-2 font-bold italic text-sm">
-                        <li><a href="#" class="hover:line-through"># MÉCANIQUE</a></li>
-                        <li><a href="#" class="hover:line-through"># ÉLECTRIQUE</a></li>
-                        <li><a href="#" class="hover:line-through"># GUIDES</a></li>
+                        <li><a href="blog.php" class="hover:line-through"># MÉCANIQUE</a></li>
+                        <li><a href="blog.php" class="hover:line-through"># ÉLECTRIQUE</a></li>
+                        <li><a href="blog.php" class="hover:line-through"># GUIDES</a></li>
                     </ul>
                 </div>
             </div>
