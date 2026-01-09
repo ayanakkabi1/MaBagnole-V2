@@ -60,7 +60,6 @@ class Commentaire{
             WHERE id_client = :id_client
             AND soft_deleted = 0
             ORDER BY date_commentaire DESC";
-
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         ':id_client' => $id_client

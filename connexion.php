@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['client_role'] = $clientConnecte->getRole();
             if($role ==='admin')
             header('Location: dashboard_admin.php');
+        
             else
             header('Location: dashboard_client.php');
             exit;
@@ -78,9 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="password" name="password" placeholder="********" required 
                            class="w-full border-4 border-black p-3 font-bold placeholder:text-gray-300 focus:bg-black focus:text-white outline-none transition">
                 </div>
+                 <a href="index.php?id=<?= (int)$Client_id ?>" >
                 <button type="submit" class="w-full bg-black text-white font-black py-4 uppercase text-lg border-4 border-black hover:bg-white hover:text-black transition active:translate-y-1">
                     SE CONNECTER
                 </button>
+                </a>
             </form>
 
             <div class="mt-10 flex flex-col gap-2 text-center">

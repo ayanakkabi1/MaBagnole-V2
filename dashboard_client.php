@@ -70,8 +70,8 @@ $commentaires = Commentaire::listerParClient($pdo, $client_id);
                             
                             <span class="text-[10px] font-black italic underline"> <?= htmlspecialchars($com->titre_com) ?> </span>
                             <div class="flex gap-4">
-                                <button class="text-[10px] font-black italic underline">MODIFIER</button>
-                                <button class="text-[10px] font-black italic underline text-red-600">SUPPRIMER</button>
+                                <a href="modifier_commentaire.php" class="text-[10px] font-black italic underline">MODIFIER</a>
+                                <a href="supprimer_commentaire.php" class="text-[10px] font-black italic underline text-red-600">SUPPRIMER</a>
                             </div>
                         </div>
                         <p class="font-bold italic"><?= nl2br(htmlspecialchars($com->contenu_com)) ?></p>
