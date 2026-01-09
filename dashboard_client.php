@@ -26,7 +26,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="md:col-span-1 space-y-6">
-                <a href="ajouter_article.php" class="block bg-black text-white p-8 border-4 border-black text-center hover:bg-white hover:text-black transition">
+                <a href="ajout_article.php" class="block bg-black text-white p-8 border-4 border-black text-center hover:bg-white hover:text-black transition">
                     <span class="text-3xl font-black italic underline decoration-4">+ AJOUTER ARTICLE</span>
                 </a>
                 <div class="border-4 border-black p-6">
