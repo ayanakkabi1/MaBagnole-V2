@@ -6,11 +6,11 @@ include_once 'classes/blog/Commentaire.php';
 
 use Blog\Article;
 use Blog\Commentaire;
-
+$client_id = (int) $_SESSION['client_id'];
 $db = new Database;
 $pdo = $db->getPdo();
 $id_article = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-$commentaires = Commentaire::listerParArticle($pdo, $id_article);
+$commentaires = Commentaire::listerParClient($pdo, $client_id);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -25,7 +25,7 @@ $commentaires = Commentaire::listerParArticle($pdo, $id_article);
         <nav class="space-x-4 font-black text-xs italic">
             <a href="blog.php" class="underline">BLOG</a>
             <a href="vehicules.php" class="underline">MES VÉHICULES</a>
-            <a href="logout.php" class="text-red-600">SORTIE</a>
+            <a href="index.php" class="text-red-600">SORTIE</a>
         </nav>
     </header>
 
@@ -52,20 +52,24 @@ $commentaires = Commentaire::listerParArticle($pdo, $id_article);
                     </ul>
                 </div>
             </div>
-
+             
             <div class="md:col-span-2 border-4 border-black p-8">
                 <h3 class="text-3xl font-black italic mb-8 border-b-4 border-black inline-block">MES DERNIERS COMMENTAIRES</h3>
+                <?php if (empty($commentaires)): ?>
+        <p class="italic opacity-50">Aucun commentaire trouvé.</p>
+    <?php endif; ?>
                 <?php foreach($commentaires as $com):?>
                      <div class="space-y-6">
                     <div class="border-2 border-black p-4 bg-gray-50 group">
                         <div class="flex justify-between items-center mb-2 border-b-2 border-black pb-2">
-                            <span class="text-[10px] font-black italic underline"><?php ?></span>
+                            
+                            <span class="text-[10px] font-black italic underline"> <?= htmlspecialchars($com->titre_com) ?> </span>
                             <div class="flex gap-4">
                                 <button class="text-[10px] font-black italic underline">MODIFIER</button>
                                 <button class="text-[10px] font-black italic underline text-red-600">SUPPRIMER</button>
                             </div>
                         </div>
-                        <p class="font-bold italic"><?php ?></p>
+                        <p class="font-bold italic">=</p>
                     </div>
                 </div>
                 <?php endforeach; ?>
