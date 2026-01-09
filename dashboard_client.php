@@ -6,7 +6,12 @@ include_once 'classes/blog/Commentaire.php';
 
 use Blog\Article;
 use Blog\Commentaire;
+
 $client_id = (int) $_SESSION['client_id'];
+if (!isset($_SESSION['client_id'])) {
+    header('Location: index.php');
+    exit;
+}
 $db = new Database;
 $pdo = $db->getPdo();
 $id_article = isset($_GET['id']) ? (int) $_GET['id'] : 0;
