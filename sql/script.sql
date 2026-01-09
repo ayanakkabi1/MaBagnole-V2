@@ -146,3 +146,5 @@ INSERT INTO article_tags (id_article, id_tag) VALUES
 (15, 3); 
 ALTER TABLE tags
 CHANGE id_tags id_tag INT AUTO_INCREMENT;
+TRUNCATE TABLE commentaires;
+
