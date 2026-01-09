@@ -30,7 +30,7 @@ if ($id_article) {
         $erreur = "Erreur de base de données.";
     }
 }
-$commentaire=Commentaire::listerParArticle($pdo,$id_article);
+
 
 if (!$article) {
     header('Location: blog.php');
@@ -137,9 +137,9 @@ if (!$article) {
     </div>
 
     <div class="mt-12">
-        <button class="bg-white text-black border-4 border-black px-8 py-4 font-black italic hover:bg-black hover:text-white transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:shadow-none">
+        <a href="ajout_commentaire.php" class="text-black border-4 border-black px-8 py-4 font-black italic hover:bg-black hover:text-white transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:shadow-none">
             + RÉDIGER_UN_COMMENTAIRE
-        </button>
+        </a>
         
     </div>
 </section>

@@ -8,17 +8,23 @@ use Blog\Article;
 use Blog\Commentaire;
  $db=new Database;
  $pdo=$db->getPdo();
+ if (!isset($_SESSION['id_client'])) {
+    header('Location: connexion.php');
+    exit;
+}
  $erreur=[];
- $id_article = isset($_GET['id']) ? (int)$_GET['id'] : null;
+ $success=FALSE;
+
+$id_article = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+
  $commentaires= Commentaire::listerParArticle($pdo,$id_article);
  if($_SERVER['REQUEST_METHOD']==='POST'){
-    $titre=trim($POST['titre_com']??'');
-    $contenu=trim($POST['contenu_com']??'');
- }
-if($titre==='')
-    $erreur='Le titre est obligatoire';
+    $titre=trim($_POST['titre_com']??'');
+    $contenu=trim($_POST['contenu_com']??'');
+    if($titre === '')
+    $erreur[]='Le titre est obligatoire';
 if($contenu==='')
-    $erreur='Le contenu est obligatoire';
+    $erreur[]='Le contenu est obligatoire';
 
 if(empty($erreur)){
     $comm=new Commentaire(
@@ -27,7 +33,14 @@ if(empty($erreur)){
         $titre,
         $contenu
     );
+    if ($comm->ajouter($pdo)) {
+            $success = true;
+        } else {
+            $erreurs[] = "Erreur lors de l'ajout de l'article.";
+        }
 }
+ }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
